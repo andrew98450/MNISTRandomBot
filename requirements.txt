@@ -1,0 +1,4 @@
+python-telegram-bot
+tflite-runtime==2.10.0
+numpy
+Flask
