@@ -1,15 +1,12 @@
 import os
 import numpy
-import configparser
 import matplotlib.pyplot as plt
 import tflite_runtime.interpreter as tflite
 from flask import *
 from telegram import *
 from telegram.ext import *
 
-config = configparser.ConfigParser()
-config.read("./config.conf")
-api_token = str(config.get('env', 'api_token'))
+api_token = str(os.environ['API_TOKEN'])
 bot = Bot(api_token)
 dispatcher = Dispatcher(bot, None)
 app = Flask(__name__)
