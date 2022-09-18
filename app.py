@@ -13,6 +13,8 @@ api_token = str(config.get('env', 'api_token'))
 bot = Bot(api_token)
 dispatcher = Dispatcher(bot, None)
 app = Flask(__name__)
+model = tflite.Interpreter("./mnist_random_model.tflite")
+model.allocate_tensors()
 
 def start(update : Update, context : CallbackContext):
     help_str = """
@@ -25,9 +27,6 @@ def generate_image(update : Update, context : CallbackContext):
         update.message.reply_text("Please Input N.")
         return
     n = int(context.args[0])
-
-    model = tflite.Interpreter("./mnist_random_model.tflite")
-    model.allocate_tensors()
 
     input_details = model.get_input_details()[0]
     output_details = model.get_output_details()[0]
@@ -68,5 +67,5 @@ def index():
     return "ok"
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8080)))
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8080)), debug=True)
     
